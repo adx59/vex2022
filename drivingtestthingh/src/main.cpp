@@ -22,28 +22,7 @@
 #include "vex.h"
 float autonSpeed=75;
 using namespace vex;
-void moveForward(float inches) {
-  float inchesPerDeg = 2*3.14*4/360*1*32/40;
-  float degrees = inches/inchesPerDeg;
-  Rightback.spinFor(forward, degrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,false);
-  RightFront.spinFor(forward, degrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,false);
-  LeftFront.spinFor(forward, degrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,false);
-  LeftBack.spinFor(forward, degrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,true);
-}
-void turnFor(float degrees) {
- 
-  float wheelDegrees = 11.2/ 4*degrees;
-  Rightback.spinFor(forward, -wheelDegrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,false);
-  RightFront.spinFor(forward, -wheelDegrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,false);
-  LeftFront.spinFor(forward, wheelDegrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,false);
-  LeftBack.spinFor(forward, wheelDegrees, vex::rotationUnits::deg, autonSpeed, vex::velocityUnits::pct,true);
 
-}
-void spinArm(float deg,float speed) {
-    leftarm.spinFor(forward,deg,vex::rotationUnits::deg,speed, vex::velocityUnits::pct,false);
-    rightarm.spinFor(forward, deg,vex::rotationUnits::deg,speed, vex::velocityUnits::pct,true);
-
-}
 
 
 int main() {
