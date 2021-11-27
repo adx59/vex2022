@@ -39,7 +39,7 @@ double nja_md = 1;
 
 int MENU_MODE = 0;
 int SELECTED_AUTON = 0;
-std::string AUTON_CODES[8] = {"V1", "V2", "-", "-", "-", "-", "S", "CUSTOM"};
+std::string AUTON_CODES[8] = {"straight", "cornerblue", "V3", "freewinpoint", "-", "-", "S", "CUSTOM"};
 
 double ROUTINE[5][3] = {{0, 100, 0}, {-1, 100, 1}, {-1, 100, 0}, {-1, 100, 0}, {-1, 100, 0}};
 int CRT = 0;
@@ -52,11 +52,11 @@ double averageEncoderVal(double des) {
   return avg;
 }
 
-float autonSpeed = 75;
- 
+float autonSpeed = 100;
+const float GEARRATIO = 2.25;
 void moveForward(float inches) {
   float inchesPerDeg = 2*3.14*4/360*1*32/40;
-  float degrees = inches/inchesPerDeg;
+  float degrees = inches/inchesPerDeg*GEARRATIO;
   backRight.spinFor(forward, degrees, deg, autonSpeed, vex::velocityUnits::pct,false);
   topRight.spinFor(forward, degrees, deg, autonSpeed, vex::velocityUnits::pct,false);
   topLeft.spinFor(forward, degrees, deg, autonSpeed, vex::velocityUnits::pct,false);
@@ -64,7 +64,7 @@ void moveForward(float inches) {
 }
 
 void turnFor(float degrees) {
-  float wheelDegrees = 11.2/ 4*degrees;
+  float wheelDegrees = 11.2/ 4*degrees*GEARRATIO;
   backRight.spinFor(forward, -wheelDegrees, deg, autonSpeed, vex::velocityUnits::pct,false);
   topRight.spinFor(forward, -wheelDegrees, deg, autonSpeed, vex::velocityUnits::pct,false);
   topLeft.spinFor(forward, wheelDegrees, deg, autonSpeed, vex::velocityUnits::pct,false);
@@ -194,24 +194,37 @@ void autonomous(void) {
   }
 
   if (SELECTED_AUTON == 0) {
-    spinArm(-660,75);
-    moveForward(44);
+    spinArm(-680,100);
+    moveForward(54);
     spinArm(650,50);
     vex::task::sleep( 500 );
-    autonSpeed=60;
-    moveForward(-10);
+    autonSpeed=100;
+    moveForward(-30);
+    /*
+    mid code
     turnFor(-50);
     autonSpeed=50;
     spinArm(-650,50);
     moveForward(42);
     spinArm(650,50);  
     moveForward(-50);
+    */
+    // opposite side of platform without goal, grab one neutral goal
   } else if (SELECTED_AUTON == 1) {
-    // Right side, 2 goal
-  } else if (SELECTED_AUTON == 2) {
+    spinArm(-680,100);
+    moveForward(65);
+    spinArm(650,50);
+    vex::task::sleep( 500 );
+    autonSpeed=100;
+    moveForward(-45);
 
+
+    //side of platform with goal, grab one neutral goal
+  } else if (SELECTED_AUTON == 2) {
+    spinArm(-400,25);
+    moveForward(-20);
   } else if (SELECTED_AUTON == 3) {
-    // left side, 1 goal
+    spinArm(-680,100);
   } else if (SELECTED_AUTON == 4) {
     // left side, 2 goal
   } else if (SELECTED_AUTON == 5) {
@@ -239,6 +252,11 @@ void usercontrol(void) {
       topRight.spin(fwd, nja_md*(Controller1.Axis3.position(pct) - 0.7*Controller1.Axis1.position()), pct);
       backLeft.spin(fwd, nja_md*(Controller1.Axis3.position(pct) + 0.7*Controller1.Axis1.position()), pct);
       backRight.spin(fwd, nja_md*(Controller1.Axis3.position(pct) - 0.7*Controller1.Axis1.position()), pct);
+
+  // topRight.spin(directionType::fwd,Controller1.Axis2.value(),velocityUnits::pct);
+  // backRight.spin(directionType::fwd,Controller1.Axis2.value(),velocityUnits::pct);
+  // topLeft.spin(directionType::fwd,Controller1.Axis3.value(),velocityUnits::pct);
+  // backLeft.spin(directionType::fwd,Controller1.Axis3.value(),velocityUnits::pct);
     }
  
     if (Controller1.ButtonL1.pressing()) { // cycle
