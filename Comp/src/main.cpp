@@ -1,13 +1,13 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// topLeft              motor         20              
-// backLeft             motor         10              
-// topRight             motor         9               
-// backRight            motor         1               
+// topLeft              motor         11              
+// backLeft             motor         9               
+// topRight             motor         12              
+// backRight            motor         10              
 // Controller1          controller                    
-// leftArm              motor         2               
-// rightArm             motor         5               
+// leftLift             motor         20              
+// rightLift            motor         2               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
@@ -71,9 +71,9 @@ void turnFor(float degrees) {
   backLeft.spinFor(forward, wheelDegrees, deg, autonSpeed, vex::velocityUnits::pct,true);
 
 }
-void spinArm(float degr, float speed) {
-    leftArm.spinFor(forward, degr, deg, speed, vex::velocityUnits::pct, false);
-    rightArm.spinFor(forward, degr, deg, speed, vex::velocityUnits::pct, true);
+void lift(float degr, float speed) {
+    leftLift.spinFor(forward, degr, deg, speed, vex::velocityUnits::pct, false);
+    rightLift.spinFor(forward, degr, deg, speed, vex::velocityUnits::pct, true);
 }
 
 void selector () {
@@ -260,20 +260,20 @@ void usercontrol(void) {
     }
  
     if (Controller1.ButtonL1.pressing()) { // cycle
-      leftArm.spin(fwd, 100, pct);
-      rightArm.spin(fwd, 100, pct);
+      leftLift.spin(fwd, 100, pct);
+      rightLift.spin(fwd, 100, pct);
 
       cut = 1;
     } else if (Controller1.ButtonL2.pressing()) {
-      leftArm.spin(reverse, 40*cut, pct);
-      rightArm.spin(reverse, 40*cut, pct);
+      leftLift.spin(reverse, 40*cut, pct);
+      rightLift.spin(reverse, 40*cut, pct);
 
-      if (leftArm.position(deg) < -680) {
+      if (leftLift.position(deg) < -680) {
         cut = 0;
       }
     } else {
-      leftArm.stop(hold);
-      rightArm.stop(hold);
+      leftLift.stop(hold);
+      rightLift.stop(hold);
     }
 
     if (Controller1.ButtonLeft.pressing() && Controller1.ButtonDown.pressing()) {

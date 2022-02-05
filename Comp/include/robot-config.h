@@ -8,8 +8,8 @@ extern motor backLeft;
 extern motor topRight;
 extern motor backRight;
 extern controller Controller1;
-extern motor leftArm;
-extern motor rightArm;
+extern motor leftLift;
+extern motor rightLift;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
